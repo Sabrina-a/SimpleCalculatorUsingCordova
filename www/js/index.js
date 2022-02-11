@@ -21,23 +21,37 @@ for (let i = 0; i < button.length; i++) {
 
 equals.addEventListener("click", function () {
   //   alert();
-  if (topNum == "") {
+  if (topNum == "=") {
     return;
   }
   for (let i = 0; i < op.length; i++) {
     console.log(op[i].innerHTML);
-    if (topNum.lastIndexOf(op[i].innerHTML) !== -1) {
+    if (topNum.innerHTML.lastIndexOf(op[i].innerHTML) !== -1) {
       let operation = op[i].innerHTML;
       topNum = topNum.innerText.split(`${operation}`);
+      lastNum = topNum.pop().split("=");
+      lastNum.pop();
+      topNum.push(...lastNum);
 
+      //   console.log(lastNum);
       switch (operation) {
         case "+":
+          console.log(topNum);
+          topNum = topNum.reduce((a, b) => eval(a) + eval(b));
+          console.log(topNum);
+          break;
         case "-":
+          topNum = topNum.reduce((a, b) => eval(a) - eval(b));
+          console.log(topNum);
+
+          break;
         case "*":
+          break;
         case "%":
+          break;
         case "/":
+          break;
       }
     }
   }
-  console.log(topNum);
 });
