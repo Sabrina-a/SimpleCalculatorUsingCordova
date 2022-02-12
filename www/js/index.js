@@ -2,101 +2,136 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
   // Cordova is now initialized. Have fun!
-
+  //camera
+  document
+    .getElementById("cameraTakePicture")
+    .addEventListener("click", cameraTakePicture);
+  //battery
+  window.addEventListener("batterystatus", onBatteryStatus, false);
+  //geolocation
+  document.getElementById("getPosition").addEventListener("click", getPosition);
+  document
+    .getElementById("watchPosition")
+    .addEventListener("click", watchPosition);
+  //camera
+  document.addEventListener("deviceready", onDeviceReady, false);
+  function onDeviceReady() {
+    console.log(navigator.camera);
+  }
   console.log("Running cordova-" + cordova.platformId + "@" + cordova.version);
   document.getElementById("deviceready").classList.add("ready");
 }
 
-let FullEquation = document.getElementById("topNumber");
-const op = document.getElementsByClassName("op");
-const button = document.getElementsByTagName("button");
-const equals = document.getElementById("equals");
-const screenResult = document.getElementById("screen");
-const removeBtn = document.getElementById("remove");
-const removeAllBtn = document.getElementById("remove-all");
-let OPERATIONS = getOperations(op);
-let isClickedEqual = false; ///////
-
-let numberBtns = document.getElementsByClassName("numbers");
-
-/// Handler Inputting Numbers
-for (let index = 0; index < numberBtns.length; index++) {
-  const element = numberBtns[index];
-  element.addEventListener("click", (e) => {
-    console.log(e.target.innerHTML);
-    appendToFullEquation(e.target.innerHTML);
-  });
+function onBatteryStatus(info) {
+  alert(
+    "BATTERY STATUS:  Level: " + info.level + " isPlugged: " + info.isPlugged
+  );
 }
 
-/// Handler Inputting Operations
-for (let index = 0; index < op.length; index++) {
-  const element = op[index];
-  element.addEventListener("click", (e) => {
-    const newInput = e.target.dataset.op;
-    if (
-      // Check if last element of FullEquation string is an operation sign
-      OPERATIONS.includes(getLastElementOfEquation())
-    ) {
-      FullEquation.innerHTML =
-        FullEquation.innerHTML.substring(0, FullEquation.innerHTML.length - 1) +
-        newInput;
-    } else {
-      appendToFullEquation(newInput);
-    }
-  });
-}
+//get current location
+function getPosition() {
+  var options = {
+    enableHighAccuracy: true,
+    maximumAge: 3600000,
+  };
+  var watchID = navigator.geolocation.getCurrentPosition(
+    onSuccess,
+    onError,
+    options
+  );
 
-removeAllBtn.addEventListener("click", () => {
-  FullEquation.innerHTML = "";
-  screenResult.innerHTML = "0";
-});
-
-removeBtn.addEventListener("click", () => {
-  if (FullEquation.innerHTML.length) {
-    FullEquation.innerHTML = FullEquation.innerHTML.substring(
-      FullEquation.innerHTML.length - 1,
-      0
+  function onSuccess(position) {
+    alert(
+      "Latitude: " +
+        position.coords.latitude +
+        "\n" +
+        "Longitude: " +
+        position.coords.longitude +
+        "\n" +
+        "Altitude: " +
+        position.coords.altitude +
+        "\n" +
+        "Accuracy: " +
+        position.coords.accuracy +
+        "\n" +
+        "Altitude Accuracy: " +
+        position.coords.altitudeAccuracy +
+        "\n" +
+        "Heading: " +
+        position.coords.heading +
+        "\n" +
+        "Speed: " +
+        position.coords.speed +
+        "\n" +
+        "Timestamp: " +
+        position.timestamp +
+        "\n"
     );
   }
-});
 
-// for (let i = 0; i < button.length; i++) {
-//   button[i].addEventListener("click", function () {
-//     // alert(button[i].innerText);
-//     topNum.innerHTML += button[i].innerText;
-//   });
-// }
-
-equals.addEventListener("click", () => {
-  try {
-    screenResult.innerHTML = eval(FullEquation.innerHTML);
-    isClickedEqual = true; ///
-  } catch (error) {
-    alert("Your Calculation seems wrong");
-    screenResult.innerHTML = "invalid";
+  function onError(error) {
+    alert("code: " + error.code + "\n" + "message: " + error.message + "\n");
   }
-});
-
-/************************************************************** */
-/************************** -- Handlers -- ******************** */
-/************************************************************** */
-function getOperations(operations) {
-  let operationArr = [];
-  for (let i = 0; i < operations.length; i++) {
-    operationArr.push(operations[i].dataset?.op);
-  }
-  return [...operationArr];
 }
 
-function appendToFullEquation(text) {
-  if (isClickedEqual) {
-    /////
-    FullEquation.innerHTML = "";
-    isClickedEqual = false;
-  }
-  FullEquation.innerHTML += text;
-}
+function watchPosition() {
+  var options = {
+    maximumAge: 3600000,
+    timeout: 3000,
+    enableHighAccuracy: true,
+  };
+  var watchID = navigator.geolocation.watchPosition(
+    onSuccess,
+    onError,
+    options
+  );
 
-function getLastElementOfEquation() {
-  return FullEquation.innerHTML[FullEquation.innerHTML.length - 1];
+  function onSuccess(position) {
+    alert(
+      "Latitude: " +
+        position.coords.latitude +
+        "\n" +
+        "Longitude: " +
+        position.coords.longitude +
+        "\n" +
+        "Altitude: " +
+        position.coords.altitude +
+        "\n" +
+        "Accuracy: " +
+        position.coords.accuracy +
+        "\n" +
+        "Altitude Accuracy: " +
+        position.coords.altitudeAccuracy +
+        "\n" +
+        "Heading: " +
+        position.coords.heading +
+        "\n" +
+        "Speed: " +
+        position.coords.speed +
+        "\n" +
+        "Timestamp: " +
+        position.timestamp +
+        "\n"
+    );
+  }
+
+  function onError(error) {
+    alert("code: " + error.code + "\n" + "message: " + error.message + "\n");
+  }
+}
+//camera
+function cameraTakePicture() {
+  navigator.camera.getPicture(onSuccess, onFail, {
+    quality: 50,
+    destinationType: Camera.DestinationType.DATA_URL,
+  });
+
+  function onSuccess(imageData) {
+    var image = document.getElementById("myImage");
+    image.src = "data:image/jpeg;base64," + imageData;
+  }
+
+  function onFail(message) {
+    alert("Failed because: " + message);
+  }
 }

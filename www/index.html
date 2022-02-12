@@ -1,57 +1,65 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Calculator</title>
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover" />
-  <link rel="stylesheet" type="text/css" href="css/index.css" />
-  <title>Calculator</title>
-</head>
-
-<body>
-  <div class="calculator">
-    <div class="screen">
-      <div id="topNumber"></div>
-      <div id="screen">0</div>
+  <body>
+    <button id="getPosition">CURRENT POSITION</button>
+    <button id="watchPosition">WATCH POSITION</button>
+    <button id = "cameraTakePicture">TAKE PICTURE</button>
+<img id = "myImage"></img>
+    <div class="calculator">
+      <div class="screen">
+        <div id="topNumber"></div>
+        <div id="screen">0</div>
+      </div>
+      <div class="calculator-button">
+        <table class="calc-options">
+          <tr>
+            <td><button class="gray" id="remove-all">AC</button></td>
+            <!-- <td><button class="gray">+/-</button></td> -->
+            <td><button class="gray" id="remove">C</button></td>
+            <td><button disabled="true" class="gray op">%</button></td>
+            <td><button class="orange op" data-op="/">÷</button></td>
+          </tr>
+          <tr>
+            <td><button class="darkgray numbers">7</button></td>
+            <td><button class="darkgray numbers">8</button></td>
+            <td><button class="darkgray numbers">9</button></td>
+            <td><button class="orange op" data-op="*">X</button></td>
+          </tr>
+          <tr>
+            <td><button class="darkgray numbers">4</button></td>
+            <td><button class="darkgray numbers">5</button></td>
+            <td><button class="darkgray numbers">6</button></td>
+            <td><button class="orange op" data-op="-">-</button></td>
+          </tr>
+          <tr>
+            <td><button class="darkgray numbers">1</button></td>
+            <td><button class="darkgray numbers">2</button></td>
+            <td><button class="darkgray numbers">3</button></td>
+            <td><button class="orange op" data-op="+">+</button></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <button class="darkgray zero numbers">0</button>
+            </td>
+            <td><button class="darkgray">.</button></td>
+            <td><button class="orange" id="equals">=</button></td>
+          </tr>
+        </table>
+      </div>
     </div>
-    <div class="calculator-button">
-      <table class="calc-options">
-        <tr>
-          <td><button class="gray" id="remove-all">AC</button></td>
-          <!-- <td><button class="gray">+/-</button></td> -->
-          <td><button class="gray" id="remove">C</button></td>
-          <td><button class="gray op">%</button></td>
-          <td><button class="orange op" data-op="/">÷</button></td>
-        </tr>
-        <tr>
-          <td><button class="darkgray numbers">7</button></td>
-          <td><button class="darkgray numbers">8</button></td>
-          <td><button class="darkgray numbers">9</button></td>
-          <td><button class="orange op" data-op="*">X</button></td>
-        </tr>
-        <tr>
-          <td><button class="darkgray numbers">4</button></td>
-          <td><button class="darkgray numbers">5</button></td>
-          <td><button class="darkgray numbers">6</button></td>
-          <td><button class="orange op" data-op="-">-</button></td>
-        </tr>
-        <tr>
-          <td><button class="darkgray numbers">1</button></td>
-          <td><button class="darkgray numbers">2</button></td>
-          <td><button class="darkgray numbers">3</button></td>
-          <td><button class="orange op" data-op="+">+</button></td>
-        </tr>
-        <tr>
-          <td colspan="2"><button class="darkgray zero numbers">0</button></td>
-          <td><button class="darkgray">.</button></td>
-          <td><button class="orange" id="equals">=</button></td>
-        </tr>
-      </table>
-    </div>
-  </div>
 
-  <script src="cordova.js"></script>
-  <script src="js/index.js"></script>
-</body>
-
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/calculator.js"></script>
+  </body>
 </html>
